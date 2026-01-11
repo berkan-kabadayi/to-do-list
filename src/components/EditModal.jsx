@@ -8,14 +8,16 @@ import {
 
 function EditModal({ onChange, onClose, onSave, inputEdit }) {
   return (
-    <>
-      <ModalBackground onClick={onClose}>
-        <ModalContainer>
-          <TextField type="text" value={inputEdit} onChange={onChange} />
-          <Button onClick={onSave}>OK</Button>
-        </ModalContainer>
-      </ModalBackground>
-    </>
+    <ModalBackground onClick={onClose}>
+      <ModalContainer onClick={(e) => e.stopPropagation()}>
+        <TextField
+          type="text"
+          value={inputEdit}
+          onChange={onChange}
+        />
+        <Button onClick={onSave}>OK</Button>
+      </ModalContainer>
+    </ModalBackground>
   );
 }
 

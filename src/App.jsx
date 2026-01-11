@@ -10,6 +10,8 @@ function App() {
   const [items, setItems] = useState([]);
   const [newItemContent, setNewItemContent] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingItemId, setEditingItemId] = useState(null);
+  const [inputEdit, setInputEdit] = useState("");
   const addItem = () => {
     const newItem = {
       id: nanoid(),
@@ -25,9 +27,31 @@ function App() {
   const deleteItem = (id) => {
     setItems((prevItems) => prevItems.filter((item) => item.id !== id));
   };
+
+  const openEditModel = (id, content) => {
+    setEditingItemId(id);
+    setInputEdit(content);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setEditingItemId(null);
+    setInputEdit("");
+  };
+
+  const saveEditedItem = () => {
+    setItems((prevItems) =>
+      prevItems.map((item) =>
+        item.id === editingItemId ? { ...item, content: inputEdit } : item
+      )
+    );
+    closeModal()
+  };
+
   return (
     <>
-      <Container>
+      <Container >
         <InputContainer>
           <InputForm
             newItemContent={newItemContent}
@@ -35,8 +59,15 @@ function App() {
             addItem={addItem}
           />
         </InputContainer>
-        <TodoList items={items} onDelete={deleteItem} onEdit={() => {}} />
-        {isModalOpen && <EditModal />}
+        <TodoList items={items} onDelete={deleteItem} onEdit={openEditModel} />
+        {isModalOpen && (
+          <EditModal
+            inputEdit={inputEdit}
+            onChange={(e) => setInputEdit(e.target.value)}
+            onClose={closeModal}
+            onSave={saveEditedItem}
+          />
+        )}
       </Container>
     </>
   );
