@@ -11,11 +11,11 @@ const Button = styled.button`
   cursor: pointer;
 `;
 
-function TodoItem({ item, onDelete, onEdit }) {
+function TodoItem({ item, onDelete, onEdit, onToggle }) {
   return (
     <>
-      <ListBox>
-        <input type="checkbox" checked={item.done} />
+      <ListBox done={item.done}>
+        <input type="checkbox" checked={item.done} onChange={() => onToggle(item.id)}/>
         <span>{item.content}</span>
         <EditDeleteContainer>
           <Button onClick={() => onEdit(item.id, item.content)}>

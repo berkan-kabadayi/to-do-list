@@ -49,6 +49,16 @@ function App() {
     closeModal()
   };
 
+  const toggleDone = (id) => {
+  setItems((prevItems) =>
+    prevItems.map((item) =>
+      item.id === id
+        ? { ...item, done: !item.done }
+        : item
+    )
+  );
+};
+
   return (
     <>
       <Container >
@@ -59,7 +69,7 @@ function App() {
             addItem={addItem}
           />
         </InputContainer>
-        <TodoList items={items} onDelete={deleteItem} onEdit={openEditModel} />
+        <TodoList items={items} onDelete={deleteItem} onEdit={openEditModel}  onToggle={toggleDone}/>
         {isModalOpen && (
           <EditModal
             inputEdit={inputEdit}
