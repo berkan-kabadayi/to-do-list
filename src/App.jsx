@@ -12,7 +12,10 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingItemId, setEditingItemId] = useState(null);
   const [inputEdit, setInputEdit] = useState("");
+
   const addItem = () => {
+    if (!newItemContent.trim()) return;
+
     const newItem = {
       id: nanoid(),
       content: newItemContent,
@@ -20,12 +23,19 @@ function App() {
     };
 
     setItems((prevItems) => [...prevItems, newItem]);
-
     setNewItemContent("");
   };
 
   const deleteItem = (id) => {
     setItems((prevItems) => prevItems.filter((item) => item.id !== id));
+  };
+
+  const toggleDone = (id) => {
+    setItems((prevItems) =>
+      prevItems.map((item) =>
+        item.id === id ? { ...item, done: !item.done } : item
+      )
+    );
   };
 
   const openEditModel = (id, content) => {
@@ -46,22 +56,12 @@ function App() {
         item.id === editingItemId ? { ...item, content: inputEdit } : item
       )
     );
-    closeModal()
+    closeModal();
   };
 
-  const toggleDone = (id) => {
-  setItems((prevItems) =>
-    prevItems.map((item) =>
-      item.id === id
-        ? { ...item, done: !item.done }
-        : item
-    )
-  );
-};
-
   return (
-    <>
-      <Container >
+    <Container className="todo-card">
+      <div className="input-fixed">
         <InputContainer>
           <InputForm
             newItemContent={newItemContent}
@@ -69,17 +69,24 @@ function App() {
             addItem={addItem}
           />
         </InputContainer>
-        <TodoList items={items} onDelete={deleteItem} onEdit={openEditModel}  onToggle={toggleDone}/>
-        {isModalOpen && (
-          <EditModal
-            inputEdit={inputEdit}
-            onChange={(e) => setInputEdit(e.target.value)}
-            onClose={closeModal}
-            onSave={saveEditedItem}
-          />
-        )}
-      </Container>
-    </>
+      </div>
+      <div className="todo-list">
+        <TodoList
+          items={items}
+          onDelete={deleteItem}
+          onEdit={openEditModel}
+          onToggle={toggleDone}
+        />
+      </div>
+      {isModalOpen && (
+        <EditModal
+          inputEdit={inputEdit}
+          onChange={(e) => setInputEdit(e.target.value)}
+          onClose={closeModal}
+          onSave={saveEditedItem}
+        />
+      )}
+    </Container>
   );
 }
 
