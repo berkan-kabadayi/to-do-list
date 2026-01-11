@@ -60,11 +60,32 @@ export const ListBox = styled.div`
   border: 1px solid #ccc;
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  text-decoration: ${({done}) => (done ? "line-through" : "none")};
+  text-decoration: ${({ done }) => (done ? "line-through" : "none")};
   opacity: ${({ done }) => (done ? 0.6 : 1)};
 `;
 
 export const EditDeleteContainer = styled.div`
   display: flex;
   gap: 10px;
+`;
+
+export const ModalBackground = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const ModalContainer = styled.div`
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
 `;
