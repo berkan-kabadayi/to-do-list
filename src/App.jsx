@@ -22,6 +22,9 @@ function App() {
     setNewItemContent("");
   };
 
+  const deleteItem = (id) => {
+    setItems((prevItems) => prevItems.filter((item) => item.id !== id));
+  };
   return (
     <>
       <Container>
@@ -32,10 +35,8 @@ function App() {
             addItem={addItem}
           />
         </InputContainer>
-        <TodoList items={items} onDelete={() => {}} onEdit={() => {}} />
-       {isModalOpen && (
-        <EditModal/>
-       )}
+        <TodoList items={items} onDelete={deleteItem} onEdit={() => {}} />
+        {isModalOpen && <EditModal />}
       </Container>
     </>
   );
